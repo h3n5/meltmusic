@@ -20,7 +20,8 @@ const Store = new Vuex.Store({
     lyricObj: {},
     mode: 1,
     songList: [],
-    currentIndex: 0
+    currentIndex: 0,
+    currentTimeFlag: true
   },
   getters: {
     getMusic: state => {
@@ -70,6 +71,7 @@ const Store = new Vuex.Store({
       Auplayer.toggle()
     },
     setisCurrentTime(state, value) {
+      state.currentTimeFlag = value
       Auplayer.setsetcurrentTimeFlag(value)
     },
     /**
@@ -121,21 +123,25 @@ const Store = new Vuex.Store({
       commit('setMusicUrl', url)
     },
     async getLrc({ commit }, id) {
-      let res = await getLyric(id)
-      let lyricTxt = ''
-      let lyricTxtCN = ''
-      if (res.nolyric) {
-        lyricTxt = '(⊙０⊙) 暂无歌词'
-      } else {
-        lyricTxt = res.lrc.lyric
+      try {
+        let res = await getLyric(id)
+        let lyricTxt = ''
+        let lyricTxtCN = ''
+        if (res.nolyric) {
+          lyricTxt = '(⊙０⊙) 暂无歌词'
+        } else {
+          lyricTxt = res.lrc.lyric
+        }
+        if (!res.nolyric || (res.tlyric && res.tlyric.lyric)) {
+          lyricTxtCN = res.tlyric.lyric
+        } else {
+          lyricTxtCN = ''
+        }
+        let lycObj = new Lyric(lyricTxt, lyricTxtCN)
+        commit('setLrcObj', lycObj)
+      } catch (error) {
+        console.log(error)
       }
-      if (!res.nolyric || (res.tlyric && res.tlyric.lyric)) {
-        lyricTxtCN = res.tlyric.lyric
-      } else {
-        lyricTxtCN = ''
-      }
-      let lycObj = new Lyric(lyricTxt, lyricTxtCN)
-      commit('setLrcObj', lycObj)
     },
     async getAlbum({ commit }, id) {
       let res = await getsongAlbum(id)
@@ -164,7 +170,11 @@ const Store = new Vuex.Store({
     Store.commit('setPaused', e)
   })
   Auplayer.on('timeupdate', e => {
+    // if(state.currentTimeFlag)
     Store.commit('setCurrentTime', e.target.currentTime)
+  })
+  Auplayer.on('next', () => {
+    Store.commit('setSongNext', true)
   })
 })(Store)
 export default Store

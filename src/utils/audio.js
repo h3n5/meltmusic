@@ -8,7 +8,7 @@ class Auplayer extends Events {
   currentTime = 0
   currentTimeFlag = true
   playState = null
-  constructor(options = { preload: true, mode: 1 }) {
+  constructor(options = { preload: false, mode: 1 }) {
     super()
     this.options = options
     this.init()
@@ -20,17 +20,17 @@ class Auplayer extends Events {
   init() {
     this.audio = document.createElement('audio')
     this.audio.preload = this.options.preload
-    this.on('timeupdate', e => {
-      if (this.currentTimeFlag) {
-        this.setcurrentTime(e.target.currentTime)
-      }
-    })
+    // this.on('timeupdate', e => {
+    //   if (this.currentTimeFlag) {
+    //     this.setcurrentTime(e.target.currentTime)
+    //   }
+    // })
     this.on('canplay', e => {
-      this.audio.play()
+      // this.audio.play()
       this.setdurationTime(e.target.duration)
     })
     this.on('ended', () => {
-      this.next()
+      this.trigger('next')
     })
   }
   initEvent() {

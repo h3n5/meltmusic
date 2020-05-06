@@ -55,6 +55,7 @@ export default {
     this.drag = new Drag('.indicater', '.progress')
     let _this = this
     this.drag.on('move', percent => {
+      console.log('percent: ', percent);
       _this.setisCurrentTime(false)
       _this.setCurrentTime(Math.round(_this.durationTime * percent))
     })
