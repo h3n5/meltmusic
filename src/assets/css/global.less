@@ -1,0 +1,21 @@
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-wrap(@size:60px) {
+  width: @size;
+  height: @size;
+  > img {
+    height: 100%;
+    width: 100%;
+  }
+}
+.text-ellipsis-multi(@line:1) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
+}
