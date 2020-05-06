@@ -50,8 +50,8 @@ export default {
       visible: false,
       confirmLoading: false,
       form: {
-        user: '3384928538@qq.com',
-        password: 'chenbinmind'
+        user: '',
+        password: ''
       }
     }
   },
