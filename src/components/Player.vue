@@ -5,29 +5,36 @@
         <a-icon type="arrow-left" />
       </div>
       <div class="player-wrap flex-column">
-        <div class="play-content">
-          <PlayLyric />
-        </div>
-        <PlayBar class="player-PlayBar" :mini="false" />
+        <transition-group name="slide" tag="div" class="player-tg">
+          <div class="play-content" v-show="!showSongList" key="PlayLyric">
+            <PlayLyric />
+          </div>
+          <PlayBar class="player-PlayBar" :mini="false" @triggerSongList="setshowSongList" key="PlayBar" />
+          <div class="play-content" v-show="showSongList" key="SongTable">
+            <SongTable :songs="songList" />
+          </div>
+        </transition-group>
       </div>
     </div>
   </transition>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapMutations } from 'vuex'
 import PlayBar from './PlayBar'
+import SongTable from '@/components/SongTable'
 import PlayLyric from './PlayLyric'
 export default {
   name: 'Player',
   components: {
     PlayBar,
-    PlayLyric
+    PlayLyric,
+    SongTable
   },
   data() {
     return {}
   },
   computed: {
-    ...mapState(['showPlayer']),
+    ...mapState(['showPlayer', 'showSongList', 'songList']),
     ...mapGetters(['getMusic']),
     isShow: {
       get() {
@@ -38,7 +45,10 @@ export default {
       }
     }
   },
-  created() {}
+  created() {},
+  methods: {
+    ...mapMutations(['setshowSongList'])
+  }
 }
 </script>
 <style lang="less">
@@ -53,6 +63,18 @@ export default {
   background-size: cover;
   transition: transform 0.5s;
   color: #fff;
+  .player-tg {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    .ant-table-placeholder {
+      background-color: transparent;
+      border-color: transparent;
+    }
+    .ant-table-thead > tr > th {
+      color: var(--font-color-blue);
+    }
+  }
   .back {
     position: absolute;
     left: 0;
@@ -67,9 +89,9 @@ export default {
   }
   .player-wrap {
     height: 100%;
-    .player-PlayBar {
-      position: relative;
-    }
+    // .player-PlayBar {
+    //   position: relative;
+    // }
   }
 }
 .hide {

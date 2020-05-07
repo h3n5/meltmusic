@@ -23,6 +23,7 @@
       <a-icon type="swap" />
       <a-icon type="redo" />
       <a-icon type="sound" />
+      <a-icon type="menu-unfold" @click="$emit('triggerSongList')" />
     </div>
   </div>
 </template>
@@ -57,6 +58,7 @@ export default {
 </script>
 <style lang="less">
 .no-mini {
+  position: relative;
   padding: 20px;
   .song-pic {
     .img-wrap(100px);
@@ -64,6 +66,9 @@ export default {
 }
 
 .mini {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   .play-left {
     .song-pic {
       .img-wrap(62px);
@@ -71,11 +76,7 @@ export default {
   }
 }
 .playBar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
-
   background: var(--playbar-bgcolor);
   background-size: cover;
   p {

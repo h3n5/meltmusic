@@ -21,7 +21,8 @@ const Store = new Vuex.Store({
     mode: 1,
     songList: [],
     currentIndex: 0,
-    currentTimeFlag: true
+    currentTimeFlag: true,
+    showSongList: false
   },
   getters: {
     getMusic: state => {
@@ -34,9 +35,12 @@ const Store = new Vuex.Store({
     }
   },
   mutations: {
+    setshowSongList(state) {
+      state.showSongList = !state.showSongList
+    },
     setCurrentTime(state, value) {
       state.currentTime = value
-      Auplayer.setcurrentTime(value)
+      if (state.currentTimeFlag) Auplayer.setcurrentTime(value)
     },
     setPaused(state, value) {
       state.paused = value
@@ -72,7 +76,6 @@ const Store = new Vuex.Store({
     },
     setisCurrentTime(state, value) {
       state.currentTimeFlag = value
-      Auplayer.setsetcurrentTimeFlag(value)
     },
     /**
      * mode =  1,歌单循环;2,歌单随机;3,单曲循环

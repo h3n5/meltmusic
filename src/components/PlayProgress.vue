@@ -36,9 +36,6 @@ export default {
       'tmpCurrentTime',
       'prCurrentTime'
     ]),
-    durationTime() {
-      return this.$music.durationTime
-    },
     indicatorPosition() {
       return (this.currentTime / this.$music.durationTime) * 100
     }
@@ -54,18 +51,18 @@ export default {
   mounted() {
     this.drag = new Drag('.indicater', '.progress')
     let _this = this
+    let durationTime = this.$music.durationTime
     this.drag.on('move', percent => {
-      console.log('percent: ', percent);
       _this.setisCurrentTime(false)
-      _this.setCurrentTime(Math.round(_this.durationTime * percent))
+      _this.setCurrentTime(Math.round(durationTime * percent))
     })
     this.drag.on('end', percent => {
       _this.setisCurrentTime(true)
-      _this.setCurrentTime(Math.round(_this.durationTime * percent))
+      _this.setCurrentTime(Math.round(durationTime * percent))
     })
     this.drag.on('click', percent => {
       _this.setisCurrentTime(true)
-      _this.setCurrentTime(Math.round(_this.durationTime * percent))
+      _this.setCurrentTime(Math.round(durationTime * percent))
     })
   },
   methods: {
