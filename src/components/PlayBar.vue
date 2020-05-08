@@ -20,9 +20,20 @@
       <a-icon type="step-backward" @setSongNext="setSongNext(false)" />
       <a-icon :type="type" @click="$music.toggle()" />
       <a-icon type="step-forward" @setSongNext="setSongNext(true)" />
-      <a-icon type="swap" />
-      <a-icon type="redo" />
-      <a-icon type="sound" />
+      <Tooltip title="单曲循环" v-show="mode === 3">
+        <a-icon :component="repeat" @click="setMode(2)"></a-icon>
+      </Tooltip>
+      <Tooltip title="随机" v-show="mode === 2">
+        <a-icon :component="random" @click="setMode(1)"></a-icon>
+      </Tooltip>
+      <Tooltip title="歌单循环" v-show="mode === 1">
+        <a-icon type="redo" @click="setMode(3)" />
+      </Tooltip>
+      <Tooltip>
+        <DiyProgress mode="vertical" slot="title" />
+        <a-icon type="sound" />
+      </Tooltip>
+
       <a-icon v-if="!mini" type="menu-unfold" @click="$emit('triggerSongList')" />
     </div>
   </div>
@@ -30,10 +41,16 @@
 <script>
 import PlayProgress from './PlayProgress'
 import { mapGetters, mapMutations, mapState } from 'vuex'
+import repeat from '@/assets/svg/repeat-one-line.svg'
+import random from '@/assets/svg/random.svg'
+import { Tooltip } from 'ant-design-vue'
+import DiyProgress from '@/components/DiyProgress'
 export default {
   name: 'PlayBar',
   components: {
-    PlayProgress
+    PlayProgress,
+    Tooltip,
+    DiyProgress
   },
   props: {
     mini: {
@@ -42,17 +59,20 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      repeat,
+      random
+    }
   },
   computed: {
-    ...mapState(['paused']),
+    ...mapState(['paused', 'mode']),
     ...mapGetters(['getMusic']),
     type() {
       return this.paused ? 'caret-right' : 'pause'
     }
   },
   methods: {
-    ...mapMutations(['triggerPlayer', 'setSongNext'])
+    ...mapMutations(['triggerPlayer', 'setSongNext', 'setMode'])
   }
 }
 </script>
@@ -69,15 +89,16 @@ export default {
   position: fixed;
   bottom: 0;
   left: 0;
+  background: var(--playbar-bgcolor);
   .play-left {
     .song-pic {
-      .img-wrap(62px);
+      .img-wrap(68px);
     }
   }
 }
 .playBar {
   width: 100%;
-  background: var(--playbar-bgcolor);
+
   background-size: cover;
   p {
     margin: 0;
@@ -105,7 +126,14 @@ export default {
     .flex-center;
     > i {
       font-size: 26px;
-      margin-right: 30px;
+      margin-right: 15px;
+      border-radius: 50%;
+      padding: 10px;
+
+      &:hover {
+        background-color: #2c3e50;
+        color: #fff;
+      }
     }
   }
 }

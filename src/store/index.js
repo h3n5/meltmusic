@@ -21,7 +21,7 @@ const Store = new Vuex.Store({
     mode: 1,
     songList: [],
     currentIndex: 0,
-    currentTimeFlag: true,
+    currentTimeFlag: false,
     showSongList: false
   },
   getters: {
@@ -35,6 +35,9 @@ const Store = new Vuex.Store({
     }
   },
   mutations: {
+    setMode(state, value) {
+      state.mode = value
+    },
     clearSongList(state) {
       state.songList = []
     },

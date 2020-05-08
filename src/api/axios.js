@@ -16,9 +16,13 @@ HttpRequest.interceptors.response.use(
       return res.data
     } else {
       Message.error(`请求出错，code：${res.status}`)
+      return Promise.reject(res)
     }
   },
-  error => Message.error(`请求出错，code：${error}`)
+  error => {
+    Message.error(`请求出错，code：${error}`)
+    return Promise.reject(error)
+  }
 )
 
 export default HttpRequest
