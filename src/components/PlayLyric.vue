@@ -1,10 +1,11 @@
 <template>
   <div class="lrc">
     <scroll
-      class="lrc-wrapper"
       ref="scroll"
+      class="lrc-wrapper"
       :pullDownRefresh="false"
       :pullUpLoad="false"
+      :startY="20"
       @scroll-start="lyricScroll = false"
       @scroll-end="lyricScroll = true"
     >
@@ -29,12 +30,15 @@ export default {
   },
   data() {
     return {
-      lyric: {},
+      lyric: [],
       lyricScroll: false
     }
   },
   computed: {
-    ...mapState(['lyricObj', 'lyricTxt', 'lyricTxtCN', 'durationTime'])
+    ...mapState(['lyricObj', 'lyricTxt', 'lyricTxtCN', 'durationTime']),
+    currentTime() {
+      return this.$music.currentTime
+    }
   },
   watch: {
     lyricObj: {

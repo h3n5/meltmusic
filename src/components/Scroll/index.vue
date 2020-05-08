@@ -6,7 +6,7 @@
           <div class="no-result-body">
             <slot name="nodata">
               <div class="no-result">
-                <img class="img" src="/spa_static_mobile/icon/none.png" />
+                <a-empty />
               </div>
             </slot>
           </div>
@@ -51,6 +51,7 @@
 <script>
 import BScroll from 'better-scroll'
 import Bubble from './scroll-bubble'
+import { Empty } from 'ant-design-vue'
 export default {
   name: 'vue-better-scroll',
   props: {
@@ -110,7 +111,7 @@ export default {
       }
     }
   },
-  components: { Bubble },
+  components: { Bubble, AEmpty: Empty },
   data() {
     return {
       beforePullDown: true,
@@ -288,7 +289,7 @@ export default {
   width: 100%;
   overflow: hidden;
   .scroll-content {
-    height: calc(~'100% + 1px');
+    min-height: calc(~'100% + 1px');
   }
   .no-more {
     text-align: center;

@@ -45,11 +45,12 @@ export default {
   },
   methods: {
     playAll() {
-      this.startSong(this.songs[0])
-      this.setPlaylist(this.songs)
+      this.clearSongList()
+      this.setSongList(this.songs)
+      this.playMusicById(this.songs[0])
     },
-    ...mapMutations(['setPlaylist']),
-    ...mapActions(['startSong'])
+    ...mapMutations(['setSongList', 'clearSongList']),
+    ...mapActions(['playMusicById'])
   },
   computed: {
     tagsText() {

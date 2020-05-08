@@ -5,6 +5,7 @@
     :pagination="false"
     :showHeader="true"
     rowKey="index"
+    :size="size"
     :customRow="customRow"
   >
     <a-table-column title="" dataIndex="index" align="center" />
@@ -44,6 +45,10 @@ export default {
     format: {
       type: Function,
       default: defaultFormat
+    },
+    size: {
+      type: String,
+      default: 'default'
     }
   },
   computed: {

@@ -18,12 +18,12 @@
     </div>
     <div class="play-right">
       <a-icon type="step-backward" @setSongNext="setSongNext(false)" />
-      <a-icon :type="type" @click="togglePlay" />
+      <a-icon :type="type" @click="$music.toggle()" />
       <a-icon type="step-forward" @setSongNext="setSongNext(true)" />
       <a-icon type="swap" />
       <a-icon type="redo" />
       <a-icon type="sound" />
-      <a-icon type="menu-unfold" @click="$emit('triggerSongList')" />
+      <a-icon v-if="!mini" type="menu-unfold" @click="$emit('triggerSongList')" />
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['togglePlay', 'triggerPlayer', 'setSongNext'])
+    ...mapMutations(['triggerPlayer', 'setSongNext'])
   }
 }
 </script>

@@ -4,22 +4,20 @@
       <div class="back" @click="isShow = false">
         <a-icon type="arrow-left" />
       </div>
-      <div class="player-wrap flex-column">
-        <transition-group name="slide" tag="div" class="player-tg">
-          <div class="play-content" v-show="!showSongList" key="PlayLyric">
-            <PlayLyric />
-          </div>
-          <PlayBar class="player-PlayBar" :mini="false" @triggerSongList="setshowSongList" key="PlayBar" />
-          <div class="play-content" v-show="showSongList" key="SongTable">
-            <SongTable :songs="songList" />
-          </div>
-        </transition-group>
+      <div class="player-wrap flex-column player-tg">
+        <div class="play-content transiton-slide" :style="{ flex: showSongList ? 0 : 1 }">
+          <PlayLyric />
+        </div>
+        <PlayBar class="player-PlayBar transiton-slide" :mini="false" @triggerSongList="setshowSongList" />
+        <div class="play-content transiton-slide" :style="{ flex: showSongList ? 1 : 0 }">
+          <SongTable size="small" :songs="songList" @click="playMusicById" />
+        </div>
       </div>
     </div>
   </transition>
 </template>
 <script>
-import { mapGetters, mapState, mapMutations } from 'vuex'
+import { mapGetters, mapState, mapMutations, mapActions } from 'vuex'
 import PlayBar from './PlayBar'
 import SongTable from '@/components/SongTable'
 import PlayLyric from './PlayLyric'
@@ -47,7 +45,8 @@ export default {
   },
   created() {},
   methods: {
-    ...mapMutations(['setshowSongList'])
+    ...mapMutations(['setshowSongList']),
+    ...mapActions(['playMusicById'])
   }
 }
 </script>
@@ -86,12 +85,18 @@ export default {
   .play-content {
     flex: 1;
     overflow: hidden;
+    overflow-y: auto;
+    .ant-table {
+      color: #fff;
+      .ant-table-row:hover {
+        td {
+          background: #000;
+        }
+      }
+    }
   }
   .player-wrap {
     height: 100%;
-    // .player-PlayBar {
-    //   position: relative;
-    // }
   }
 }
 .hide {
@@ -99,5 +104,8 @@ export default {
 }
 .show {
   transform: none;
+}
+.transiton-slide {
+  transition: all 0.2s ease-in-out;
 }
 </style>

@@ -35,6 +35,19 @@ const Store = new Vuex.Store({
     }
   },
   mutations: {
+    clearSongList(state) {
+      state.songList = []
+    },
+    setSongList(state, value) {
+      let list = Array.from(state.songList)
+      let list_ids = list.map(v => v.id)
+      value.forEach(v => {
+        if (!list_ids.includes(v.id)) {
+          list.push(v)
+        }
+      })
+      state.songList = list
+    },
     setshowSongList(state) {
       state.showSongList = !state.showSongList
     },
@@ -70,9 +83,6 @@ const Store = new Vuex.Store({
     },
     setLrcObj(state, value) {
       state.lyricObj = value
-    },
-    togglePlay() {
-      Auplayer.toggle()
     },
     setisCurrentTime(state, value) {
       state.currentTimeFlag = value
@@ -119,11 +129,16 @@ const Store = new Vuex.Store({
       return Promise.resolve(state.musicUrl)
     },
     async getSong({ commit }, id) {
-      let {
-        data: [song]
-      } = await getSongUrl(id)
-      let url = song.url
-      commit('setMusicUrl', url)
+      try {
+        let {
+          data: [song]
+        } = await getSongUrl(id)
+        let url = song.url
+        if (!url) return console.error('获取地址失败')
+        commit('setMusicUrl', url)
+      } catch (error) {
+        console.log(error)
+      }
     },
     async getLrc({ commit }, id) {
       try {
@@ -147,9 +162,13 @@ const Store = new Vuex.Store({
       }
     },
     async getAlbum({ commit }, id) {
-      let res = await getsongAlbum(id)
-      let url = res.album.blurPicUrl
-      commit('setAlbumUrl', url)
+      try {
+        let res = await getsongAlbum(id)
+        let url = res.album.blurPicUrl
+        commit('setAlbumUrl', url)
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   modules: {},
