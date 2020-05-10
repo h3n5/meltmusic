@@ -62,11 +62,14 @@ class Auplayer extends Events {
   setdurationTime(time) {
     this.durationTime = time
   }
-  setcurrentTime(time) {
+  setCurrentTime(time) {
     this.audio.currentTime = time
   }
   setloop(value) {
     this.audio.loop = value
+  }
+  setVolume(value) {
+    this.audio.volume = value
   }
 }
 

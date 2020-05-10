@@ -78,6 +78,7 @@ export default {
     position: absolute;
     left: 0;
     top: 0;
+    z-index: 3;
     padding: 5px 15px;
     font-size: 16px;
     background: #007acc;

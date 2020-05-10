@@ -31,13 +31,13 @@ export default {
   data() {
     return {
       lyric: [],
-      lyricScroll: false
+      lyricScroll: true
     }
   },
   computed: {
-    ...mapState(['lyricObj', 'lyricTxt', 'lyricTxtCN', 'durationTime']),
-    currentTime() {
-      return this.$music.currentTime
+    ...mapState(['lyricObj', 'lyricTxt', 'lyricTxtCN', 'currentTime']),
+    durationTime() {
+      return this.$music.durationTime
     }
   },
   watch: {
@@ -65,9 +65,11 @@ export default {
         this.lyric[i].show = false
         if (v * 1000 > Lyric[i].time && v * 1000 < Lyric[i + 1].time) {
           this.lyric[i].show = true
-          if (this.lyricScroll && document.querySelector('.lrc-select')) {
-            this.$refs.scroll.scrollToElement('.lrc-select', 200, true, true)
-          }
+          this.$nextTick(() => {
+            if (this.lyricScroll && document.querySelector('.lrc-select')) {
+              this.$refs.scroll.scrollToElement('.lrc-select', 200, true, true)
+            }
+          })
         }
       }
     }
@@ -91,7 +93,7 @@ export default {
       .lrc-list {
         font-size: 14px;
         padding-bottom: 10px;
-        color: hsla(0, 0%, 100%, 0.6);
+        // color: hsla(0, 0%, 100%, 0.6);
       }
       .lrc-select {
         > p {

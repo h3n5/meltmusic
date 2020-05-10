@@ -22,7 +22,8 @@ const Store = new Vuex.Store({
     songList: [],
     currentIndex: 0,
     currentTimeFlag: false,
-    showSongList: false
+    showSongList: false,
+    volume: 0
   },
   getters: {
     getMusic: state => {
@@ -35,6 +36,10 @@ const Store = new Vuex.Store({
     }
   },
   mutations: {
+    setVolume(state, value) {
+      state.volume = value
+      Auplayer.setVolume(value)
+    },
     setMode(state, value) {
       state.mode = value
     },
@@ -56,7 +61,7 @@ const Store = new Vuex.Store({
     },
     setCurrentTime(state, value) {
       state.currentTime = value
-      if (state.currentTimeFlag) Auplayer.setcurrentTime(value)
+      // if (state.currentTimeFlag) Auplayer.setCurrentTime(value)
     },
     setPaused(state, value) {
       state.paused = value
@@ -137,6 +142,8 @@ const Store = new Vuex.Store({
           data: [song]
         } = await getSongUrl(id)
         let url = song.url
+        console.log('url: ', url)
+
         if (!url) return console.error('获取地址失败')
         commit('setMusicUrl', url)
       } catch (error) {
@@ -165,6 +172,7 @@ const Store = new Vuex.Store({
       }
     },
     async getAlbum({ commit }, id) {
+      console.log('getAlbum: ', id)
       try {
         let res = await getsongAlbum(id)
         let url = res.album.blurPicUrl
@@ -188,14 +196,15 @@ const Store = new Vuex.Store({
     Auplayer.setAudio(state.musicUrl)
   }
   if (state.currentTime) {
-    Auplayer.setcurrentTime(state.currentTime)
+    Auplayer.setCurrentTime(state.currentTime)
   }
-
+  if (state.volume) {
+    Auplayer.setVolume(state.volume)
+  }
   Auplayer.on('changePlayState', e => {
     Store.commit('setPaused', e)
   })
   Auplayer.on('timeupdate', e => {
-    // if(state.currentTimeFlag)
     Store.commit('setCurrentTime', e.target.currentTime)
   })
   Auplayer.on('next', () => {

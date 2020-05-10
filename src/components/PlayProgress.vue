@@ -49,7 +49,7 @@ export default {
     }
   },
   mounted() {
-    this.drag = new Drag('.indicater', '.progress')
+    this.drag = new Drag('.indicater', '.progress', 'horizontal')
     let _this = this
     let durationTime = this.$music.durationTime
     this.drag.on('move', percent => {

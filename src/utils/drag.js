@@ -1,7 +1,8 @@
 class Drag {
-  constructor(ball, bar) {
+  constructor(ball, bar, mode = 'vertical') {
     this.target = document.querySelector(ball)
     this.limit = document.querySelector(bar)
+    this.isVertical = mode === 'vertical'
     this.flag = false
     this.per = 0
     this.event = {}
@@ -10,15 +11,22 @@ class Drag {
   init() {
     this.setMobile(this.target)
     this.setPC(this.target)
-    this.limit.onclick = this.click.bind(this)
+    this.limit.addEventListener('click', this.click.bind(this))
+  }
+  getPosition() {
+    this.target.position = this.target.getBoundingClientRect()
+    this.limit.position = this.limit.getBoundingClientRect()
+    this.limit_position = this.isVertical ? this.limit.position.y : this.limit.position.x
+    this.limit_size = this.isVertical ? this.limit.offsetHeight : this.limit.offsetWidth
+    this.target_size = this.isVertical ? this.target.offsetHeight : this.target.offsetWidth
   }
   setPC(element) {
-    const ele = element
-    ele.onmousedown = e => {
+    // const ele = element
+    element.onmousedown = e => {
       e.preventDefault() // 禁止同时触发click事件
       this.flag = true
       document.onmousemove = event => {
-        event.preventDefault() // 解决拖动过快突然事件断掉的怪异bug
+        // event.preventDefault() // 解决拖动过快突然事件断掉的怪异bug
         if (this.flag) {
           var ele = event
           var left = this.limit.offsetLeft
@@ -70,13 +78,16 @@ class Drag {
     }
   }
   click(e) {
-    var left = this.limit.offsetLeft
-    var width = this.limit.offsetWidth
-    var targetWidth = this.target.offsetWidth
-    var distance = e.clientX - left - targetWidth / 2
-    distance = distance > width - targetWidth / 2 ? width - targetWidth / 2 : distance
+    this.getPosition()
+    var distance = (this.isVertical ? e.clientY : e.clientX) - this.limit_position
+    //  - this.target_size / 2
+
+    distance = distance > this.limit_size ? this.limit_size : distance
+
     distance = distance < 0 ? 0 : distance
-    this.per = distance / width
+
+    this.per = this.isVertical ? 1 - distance / this.limit_size : distance / this.limit_size
+
     this.event.click.call(this, this.per)
   }
   on(event, callback) {

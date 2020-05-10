@@ -2,7 +2,7 @@
   <div :class="[mini ? 'flex-row mini' : 'flex-column no-mini', 'playBar']" v-if="getMusic">
     <div class="play-left flex-row">
       <div class="song-pic" @click="triggerPlayer">
-        <img class="size-contain" v-lazy="getMusic.albumPic" />
+        <img class="size-contain" v-lazy="getMusic.albumPic || getMusic.album.picUrl" />
       </div>
       <div class="song-info flex-column flex-center">
         <p class="song-al flex-column flex-1 flex-center">
@@ -30,7 +30,7 @@
         <a-icon type="redo" @click="setMode(3)" />
       </Tooltip>
       <Tooltip>
-        <DiyProgress mode="vertical" slot="title" />
+        <DiyProgress :start="start" mode="vertical" slot="title" @click="gosetVolume" />
         <a-icon type="sound" />
       </Tooltip>
 
@@ -65,14 +65,20 @@ export default {
     }
   },
   computed: {
-    ...mapState(['paused', 'mode']),
+    ...mapState(['paused', 'mode', 'volume']),
     ...mapGetters(['getMusic']),
     type() {
       return this.paused ? 'caret-right' : 'pause'
+    },
+    start() {
+      return Math.round(this.volume * 100)
     }
   },
   methods: {
-    ...mapMutations(['triggerPlayer', 'setSongNext', 'setMode'])
+    ...mapMutations(['triggerPlayer', 'setSongNext', 'setMode', 'setVolume']),
+    gosetVolume(v) {
+      this.setVolume(Number(v.toFixed(2)))
+    }
   }
 }
 </script>

@@ -181,6 +181,13 @@ export default {
           this.$emit('before-scroll-start')
         })
       }
+
+      this.scroll.on('scrollStart', () => {
+        this.$emit('scroll-start')
+      })
+      this.scroll.on('scrollEnd', () => {
+        this.$emit('scroll-end')
+      })
       if (this.pullDownRefresh) {
         this._initPullDownRefresh()
       }

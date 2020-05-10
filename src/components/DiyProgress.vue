@@ -1,10 +1,10 @@
 <template>
-  <div class="progress-bar-group" :class="mode">
+  <div class="progress-bar-group" :class="[mode, randomClass]">
     <div class="time-indicater">
       <span>{{ start }}</span>
     </div>
-    <div class="progress" :style="{ width: indicatorPosition + '%' }">
-      <div class="indicater" :style="{ left: indicatorPosition + '%' }"></div>
+    <div class="progress" :style="progressStyle">
+      <div class="indicater" :style="indicaterStyle"></div>
     </div>
     <div class="time-indicater">
       <span>{{ end }}</span>
@@ -39,10 +39,29 @@ export default {
   computed: {
     indicatorPosition() {
       return (this.start / this.end) * 100
+    },
+    progressStyle() {
+      let indicatorPosition = this.indicatorPosition
+      if (this.mode === 'vertical') {
+        return { height: indicatorPosition + '%' }
+      } else {
+        return { width: indicatorPosition + '%' }
+      }
+    },
+    indicaterStyle() {
+      let indicatorPosition = this.indicatorPosition
+      if (this.mode === 'vertical') {
+        return { bottom: indicatorPosition + '%' }
+      } else {
+        return { left: indicatorPosition + '%' }
+      }
+    },
+    randomClass() {
+      return 'random' + String(Math.random()).slice(2, 10)
     }
   },
   mounted() {
-    this.drag = new Drag('.indicater', '.progress')
+    this.drag = new Drag(`.${this.randomClass} .indicater`, `.${this.randomClass} .progress`, this.mode)
     let _this = this
     this.drag.on('move', percent => {
       _this.$emit('move', percent)
@@ -75,15 +94,25 @@ export default {
   }
   .progress {
     width: 2px;
-    background: #f1f1f1;
+    background: #517eaf;
     flex: 1 1 auto;
     position: relative;
     box-sizing: border-box;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #fff;
+    }
     .indicater {
       position: absolute;
-      width: 16px;
-      height: 16px;
-      border-radius: 16px;
+      left: -7px;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
       background: #f1f1f1;
       bottom: 0;
       &::after {

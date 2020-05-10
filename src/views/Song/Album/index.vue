@@ -32,8 +32,8 @@ import DetailHeader from './componetns/head'
 import { Input } from 'ant-design-vue'
 import SongTable from '@/components/SongTable'
 import Comments from '@/components/Comments/index.vue'
-import { getListDetail, getSongDetail, getSongUrl } from '@/api'
-import { mapMutations } from 'vuex'
+import { getListDetail, getSongDetail } from '@/api'
+import { mapMutations, mapActions } from 'vuex'
 const MAX = 500
 const SONG_IDX = 0
 const COMMENT_IDX = 1
@@ -59,12 +59,10 @@ export default {
   },
   methods: {
     ...mapMutations(['setMusic']),
+    ...mapActions(['playMusicById']),
     async jumpMusicDetail(v) {
-      this.setMusic(v)
-      let {
-        data: [song]
-      } = await getSongUrl(v.id)
-      this.$music.play(song.url)
+      let res = await this.playMusicById(v)
+      this.$music.play(res)
     },
     async init() {
       const { playlist } = await getListDetail({ id: this.id })
