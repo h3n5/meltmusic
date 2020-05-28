@@ -5,7 +5,8 @@
         <a-icon type="arrow-left" />
       </div>
       <div class="player-wrap flex-column player-tg">
-        <div class="play-content transiton-slide" :style="{ flex: showSongList ? 0 : 1 }">
+        <div class="play-content transiton-slide flex-row" :style="{ flex: showSongList ? 0 : 1 }">
+          <PlayAnime />
           <PlayLyric />
         </div>
         <PlayBar class="player-PlayBar transiton-slide" :mini="false" @triggerSongList="setshowSongList" />
@@ -21,11 +22,13 @@ import { mapGetters, mapState, mapMutations, mapActions } from 'vuex'
 import PlayBar from './PlayBar'
 import SongTable from '@/components/SongTable'
 import PlayLyric from './PlayLyric'
+import PlayAnime from './PlayAnime'
 export default {
   name: 'Player',
   components: {
     PlayBar,
     PlayLyric,
+    PlayAnime,
     SongTable
   },
   data() {
@@ -87,6 +90,9 @@ export default {
     flex: 1;
     overflow: hidden;
     overflow-y: auto;
+    > div {
+      flex: 1;
+    }
     .ant-table {
       color: #fff;
       .ant-table-row:hover {

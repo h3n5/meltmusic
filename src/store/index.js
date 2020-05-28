@@ -141,13 +141,14 @@ const Store = new Vuex.Store({
         let {
           data: [song]
         } = await getSongUrl(id)
-        let url = song.url
+        let url = song.url || ''
         console.log('url: ', url)
-
         if (!url) return console.error('获取地址失败')
         commit('setMusicUrl', url)
+        return await url
       } catch (error) {
-        console.log(error)
+        commit('setMusicUrl', '')
+        console.error('获取地址失败', error)
       }
     },
     async getLrc({ commit }, id) {
@@ -186,17 +187,22 @@ const Store = new Vuex.Store({
   plugins: [createPersistedState()]
 })
 !(function init(Store) {
-  const { state } = Store
+  const { state, dispatch } = Store
   if (state.css) {
     Object.keys(Store.state.css).forEach(v => {
       cssFactory.set(v, Store.state.css[v])
     })
   }
-  if (state.musicUrl) {
-    Auplayer.setAudio(state.musicUrl)
-  }
   if (state.currentTime) {
     Auplayer.setCurrentTime(state.currentTime)
+  }
+  // reset music url because will be block
+  if (state.music && state.music.id) {
+    dispatch('getSong', state.music.id).then(() => {
+      if (state.musicUrl) {
+        Auplayer.setAudio(state.musicUrl)
+      }
+    })
   }
   if (state.volume) {
     Auplayer.setVolume(state.volume)
