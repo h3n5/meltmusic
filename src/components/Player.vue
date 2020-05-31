@@ -1,6 +1,7 @@
 <template>
   <transition name="slide">
     <div class="player" :class="[isShow ? 'show' : 'hide']">
+      <div class="player-bg"></div>
       <div class="back" @click="isShow = false">
         <a-icon type="arrow-left" />
       </div>
@@ -61,10 +62,22 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
-  background: var(--playbar-bgcolor);
-  background-size: cover;
+
   transition: transform 0.5s;
+  background: #ffffff;
   color: #fff;
+  .player-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--playbar-bgcolor);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(10px);
+    z-index: -1;
+  }
   .player-tg {
     display: flex;
     flex-flow: column nowrap;

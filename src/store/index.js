@@ -178,6 +178,7 @@ const Store = new Vuex.Store({
         let res = await getsongAlbum(id)
         let url = res.album.blurPicUrl
         commit('setAlbumUrl', url)
+        commit('setLayoutBg', `url(${url}) no-repeat`)
       } catch (error) {
         console.log(error)
       }

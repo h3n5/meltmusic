@@ -6,7 +6,7 @@ class Ring extends Base {
     this.config = {
       num: 7, // 圆环数量
       speed: 1, // 圆环速度
-      play: true, // 状态
+      play: false, // 状态
       lineWidth: 0.5 * this.ratio, // 圆环线颜色
       littleWidth: 3 * this.ratio // 圆点颜色
     }
