@@ -21,9 +21,10 @@ const Store = new Vuex.Store({
     mode: 1,
     songList: [],
     currentIndex: 0,
-    currentTimeFlag: false,
+    currentTimeFlag: true,
     showSongList: false,
-    volume: 0
+    volume: 0,
+    albumPic: ''
   },
   getters: {
     getMusic: state => {
@@ -36,12 +37,16 @@ const Store = new Vuex.Store({
     }
   },
   mutations: {
+    setCurrentIndex(state, value) {
+      state.currentIndex = value
+    },
     setVolume(state, value) {
       state.volume = value
       Auplayer.setVolume(value)
     },
     setMode(state, value) {
       state.mode = value
+      Auplayer.setloop(value === 3)
     },
     clearSongList(state) {
       state.songList = []
@@ -68,6 +73,7 @@ const Store = new Vuex.Store({
     },
     setAlbumUrl(state, value) {
       state.music.albumPic = value
+      state.albumPic = value
     },
     _user: (state, value) => {
       state.user = value
@@ -94,39 +100,47 @@ const Store = new Vuex.Store({
     },
     setisCurrentTime(state, value) {
       state.currentTimeFlag = value
-    },
+    }
+  },
+  actions: {
     /**
      * mode =  1,歌单循环;2,歌单随机;3,单曲循环
      */
-    setSongNext(state, next = true) {
+    async setSongNext({ dispatch, commit, state }, next = true) {
       const mode = state.mode
-
-      if (mode === 1) {
+      console.log('mode: ', mode)
+      let currentIndex = state.currentIndex
+      if (mode === 1 || mode === 3) {
         if (next) {
-          this.currentIndex === this.songList.length - 1 ? (this.currentIndex = 0) : this.currentIndex++
+          currentIndex === state.songList.length - 1 ? (currentIndex = 0) : currentIndex++
         } else {
-          this.currentIndex === 0 ? (this.currentIndex = this.songList.length - 1) : this.currentIndex--
+          currentIndex === 0 ? (currentIndex = state.songList.length - 1) : currentIndex--
         }
       }
       if (mode === 2) {
         var randomIndex = () => {
-          var r = ~~((this.songList.length - 1) * Math.random())
-          if (r === this.currentIndex) {
+          var r = ~~((state.songList.length - 1) * Math.random())
+          if (r === currentIndex) {
             r = randomIndex()
           }
           return r
         }
-        this.currentIndex = randomIndex()
+        currentIndex = randomIndex()
       }
       if (mode === 3) {
         Auplayer.setloop(true)
       } else {
         Auplayer.setloop(false)
-        Auplayer.setAudio(this.songList[this.currentIndex])
       }
-    }
-  },
-  actions: {
+      let selectd = state.songList[currentIndex]
+      if (selectd) {
+        commit('setCurrentIndex', currentIndex)
+        let res = await dispatch('playMusicById', selectd)
+        Auplayer.play(res)
+      } else {
+        console.log('从歌单中获取歌曲失败')
+      }
+    },
     async playMusicById({ commit, dispatch, state, getters }, song) {
       commit('setMusic', song)
       await Promise.all([
@@ -188,7 +202,7 @@ const Store = new Vuex.Store({
   plugins: [createPersistedState()]
 })
 !(function init(Store) {
-  const { state, dispatch } = Store
+  const { state, dispatch, commit } = Store
   if (state.css) {
     Object.keys(Store.state.css).forEach(v => {
       cssFactory.set(v, Store.state.css[v])
@@ -204,18 +218,23 @@ const Store = new Vuex.Store({
         Auplayer.setAudio(state.musicUrl)
       }
     })
+    dispatch('getLrc', state.music.id)
   }
   if (state.volume) {
     Auplayer.setVolume(state.volume)
   }
+  if (state.music.albumPic) {
+    commit('setLayoutBg', `url(${state.music.albumPic}) no-repeat`)
+  }
+  Auplayer.setloop(state.mode === 3)
   Auplayer.on('changePlayState', e => {
     Store.commit('setPaused', e)
   })
   Auplayer.on('timeupdate', e => {
-    Store.commit('setCurrentTime', e.target.currentTime)
+    if (state.currentTimeFlag) Store.commit('setCurrentTime', e.target.currentTime)
   })
   Auplayer.on('next', () => {
-    Store.commit('setSongNext', true)
+    Store.dispatch('setSongNext', true)
   })
 })(Store)
 export default Store

@@ -1,13 +1,17 @@
 <template>
   <div class="progress-bar-group" :class="[mode, randomClass]">
     <div class="time-indicater">
-      <span>{{ start }}</span>
+      <slot name="start">
+        <span>{{ start }}</span>
+      </slot>
     </div>
     <div class="progress" :style="progressStyle">
       <div class="indicater" :style="indicaterStyle"></div>
     </div>
     <div class="time-indicater">
-      <span>{{ end }}</span>
+      <slot name="end">
+        <span>{{ end }}</span>
+      </slot>
     </div>
   </div>
 </template>
@@ -97,7 +101,9 @@ export default {
     background: #517eaf;
     flex: 1 1 auto;
     position: relative;
-    box-sizing: border-box;
+    border: 10px solid transparent;
+    box-sizing: content-box;
+    background-clip: padding-box;
     &::before {
       content: '';
       position: absolute;

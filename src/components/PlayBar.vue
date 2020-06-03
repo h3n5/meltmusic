@@ -1,6 +1,6 @@
 <template>
   <div :class="[mini ? 'flex-row mini' : 'flex-column no-mini', 'playBar']" v-if="getMusic">
-    <div class="play-left flex-row">
+    <div class="play-left flex-row" v-show="mini">
       <div class="song-pic" @click="triggerPlayer">
         <img class="size-contain" v-lazy="getMusic.albumPic || getMusic.album.picUrl" />
       </div>
@@ -17,9 +17,15 @@
       <PlayProgress class="play-progress" />
     </div>
     <div class="play-right">
-      <a-icon type="step-backward" @setSongNext="setSongNext(false)" />
-      <a-icon :type="type" @click="$music.toggle()" />
-      <a-icon type="step-forward" @setSongNext="setSongNext(true)" />
+      <Tooltip title="上一曲">
+        <a-icon type="step-backward" @click="setSongNext(false)" />
+      </Tooltip>
+      <Tooltip :title="paused ? '播放' : '暂停'">
+        <a-icon :type="type" @click="$music.toggle()" />
+      </Tooltip>
+      <Tooltip title="下一曲">
+        <a-icon type="step-forward" @click="setSongNext(true)" />
+      </Tooltip>
       <Tooltip title="单曲循环" v-show="mode === 3">
         <a-icon :component="repeat" @click="setMode(2)"></a-icon>
       </Tooltip>
@@ -40,7 +46,7 @@
 </template>
 <script>
 import PlayProgress from './PlayProgress'
-import { mapGetters, mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState, mapActions } from 'vuex'
 import repeat from '@/assets/svg/repeat-one-line.svg'
 import random from '@/assets/svg/random.svg'
 import { Tooltip } from 'ant-design-vue'
@@ -75,7 +81,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['triggerPlayer', 'setSongNext', 'setMode', 'setVolume']),
+    ...mapMutations(['triggerPlayer', 'setMode', 'setVolume']),
+    ...mapActions(['setSongNext']),
     gosetVolume(v) {
       this.setVolume(Number(v.toFixed(2)))
     }
@@ -95,10 +102,24 @@ export default {
   position: fixed;
   bottom: 0;
   left: 0;
-  background: var(--playbar-bgcolor);
+  background: #f0f0f0;
   .play-left {
     .song-pic {
       .img-wrap(68px);
+    }
+  }
+  .play-progress {
+    .progress {
+      background: #2c3e50;
+      &::after {
+        background: #f0f0f0;
+      }
+      .indicater {
+        background: #2c3e50;
+        &::after {
+          background: #f0f0f0;
+        }
+      }
     }
   }
 }

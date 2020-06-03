@@ -25,25 +25,25 @@ export default {
   props: {
     start: {
       type: Number,
-      default: 50,
+      default: 50
     },
     end: {
       type: Number,
-      default: 100,
+      default: 100
     },
     mode: {
       type: String,
       default: 'horizontal',
-      validator: (e) => ['vertical', 'horizontal'].includes(e),
+      validator: e => ['vertical', 'horizontal'].includes(e)
     },
     buffStart: {
       type: Number,
-      default: 80,
-    },
+      default: 80
+    }
   },
   data() {
     return {
-      drag: {},
+      drag: {}
     }
   },
   computed: {
@@ -85,21 +85,21 @@ export default {
           .toString()
           .slice(2, 14)
       )
-    },
+    }
   },
   mounted() {
     this.drag = new Drag(`.${this.randomClass} .indicater`, `.${this.randomClass} .progress`, this.mode)
     let _this = this
-    this.drag.on('move', (percent) => {
+    this.drag.on('move', percent => {
       _this.$emit('move', percent)
       _this.$emit('percent', percent)
     })
-    this.drag.on('end', (percent) => {
+    this.drag.on('end', percent => {
       console.log('AutoConsole: mounted -> end')
       _this.$emit('end', percent)
       _this.$emit('percent', percent)
     })
-    this.drag.on('click', (percent) => {
+    this.drag.on('click', percent => {
       console.log('AutoConsole: mounted -> click')
       _this.$emit('click', percent)
       _this.$emit('percent', percent)
@@ -108,7 +108,7 @@ export default {
   beforeDestroy() {
     this.drag.destory()
     this.drag = null
-  },
+  }
 }
 </script>
 

@@ -11,6 +11,13 @@
     >
       <div class="lrc-content content">
         <div class="lrc-box">
+          <div class="song-info flex-column flex-center">
+            <p class="song-al flex-column flex-1 flex-center">
+              {{ getMusic.name }}
+            </p>
+            <p class="song-name flex-1 flex-center" v-if="artists">歌手：{{ artists }}</p>
+            <p class="song-name flex-1 flex-center">专辑：{{ getMusic.album.name }}</p>
+          </div>
           <div class="lrc-list" :class="{ 'lrc-select': item.show }" v-for="(item, index) in lyric" :key="index">
             <p>{{ item.txt }}</p>
             <p v-if="lyric.hasCN">{{ item.txtCN }}</p>
@@ -22,7 +29,7 @@
 </template>
 <script>
 import scroll from './Scroll/index.vue'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'PlayLrcic',
   components: {
@@ -36,8 +43,12 @@ export default {
   },
   computed: {
     ...mapState(['lyricObj', 'lyricTxt', 'lyricTxtCN', 'currentTime']),
+    ...mapGetters(['getMusic']),
     durationTime() {
       return this.$music.durationTime
+    },
+    artists() {
+      return this.getMusic.artists.map(v => v.name).join('/')
     }
   },
   watch: {
@@ -70,6 +81,7 @@ export default {
               this.$refs.scroll.scrollToElement('.lrc-select', 200, true, true)
             }
           })
+          continue
         }
       }
     }
@@ -80,7 +92,8 @@ export default {
 <style lang="less" scope>
 .lrc {
   font-size: 14px;
-  padding: 20px 0;
+  padding-top: 120px;
+  padding-bottom: 100px;
   color: #fefefe;
   text-align: center;
   height: 100%;
@@ -90,6 +103,18 @@ export default {
   }
   .lrc-content {
     .lrc-box {
+      .song-info {
+        text-align: center;
+      }
+      .song-al {
+        font-size: 20px;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+      .song-name {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
       .lrc-list {
         font-size: 14px;
         padding-bottom: 10px;

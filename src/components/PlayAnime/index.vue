@@ -14,26 +14,37 @@ export default {
     }
   },
   computed: {
-    ...mapState(['paused']),
+    ...mapState(['paused', 'albumPic']),
     ...mapGetters(['getMusic'])
+  },
+  watch: {
+    albumPic: 'changeAlubm'
   },
   mounted() {
     if (this.getMusic) {
       let { album } = this.getMusic
+      this.init(album.picUrl)
+      this.$watch('paused', () => {
+        this.circle.switch(!this.paused)
+      })
+    }
+  },
+  methods: {
+    init(v) {
       this.circle = new Circle({
         id: '#canvasgraph',
         width: 500,
         height: 500,
         albumWidth: 300,
         albumHeight: 300,
-        album: album.picUrl || require('@/assets/img/player-bar.png'),
+        album: v || require('@/assets/img/player-bar.png'),
         audio: this.$music.audio
       })
-      this.$watch('paused', () => {
-        this.circle.switch(!this.paused)
-      })
-      if (album.picUrl) {
-        this.$store.commit('setLayoutBg', `url(${album.picUrl}) no-repeat`)
+    },
+    changeAlubm() {
+      if (this.albumPic) {
+        this.init(this.albumPic)
+        this.circle.switch(true)
       }
     }
   }

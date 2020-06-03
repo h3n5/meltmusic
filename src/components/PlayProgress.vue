@@ -1,26 +1,20 @@
 <template>
-  <div class="progress-bar-group">
-    <div class="time-indicater">
-      <span>{{ currentTime | dateFormat }}</span>
-    </div>
-    <div class="progress" :style="{ width: indicatorPosition + '%' }">
-      <div class="indicater" :style="{ left: indicatorPosition + '%' }"></div>
-    </div>
-    <div class="time-indicater">
-      <span>{{ $music.durationTime | dateFormat }}</span>
-    </div>
-  </div>
+  <DiyProgress :start="currentTime" :end="$music.durationTime" @click="click" @move="move" @end="end">
+    <span slot="start">{{ currentTime | dateFormat }}</span>
+    <span slot="end">{{ $music.durationTime | dateFormat }}</span>
+  </DiyProgress>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import Drag from '@/utils/drag.js'
+import DiyProgress from '@/components/DiyProgress'
 export default {
   name: 'PlayProgress',
+  components: {
+    DiyProgress
+  },
   data() {
-    return {
-      drag: {}
-    }
+    return {}
   },
   computed: {
     ...mapState([
@@ -35,10 +29,7 @@ export default {
       'prBufferedTime',
       'tmpCurrentTime',
       'prCurrentTime'
-    ]),
-    indicatorPosition() {
-      return (this.currentTime / this.$music.durationTime) * 100
-    }
+    ])
   },
   filters: {
     dateFormat(value) {
@@ -48,25 +39,26 @@ export default {
       return left + ':' + right
     }
   },
-  mounted() {
-    this.drag = new Drag('.indicater', '.progress', 'horizontal')
-    let _this = this
-    let durationTime = this.$music.durationTime
-    this.drag.on('move', percent => {
-      _this.setisCurrentTime(false)
-      _this.setCurrentTime(Math.round(durationTime * percent))
-    })
-    this.drag.on('end', percent => {
-      _this.setisCurrentTime(true)
-      _this.setCurrentTime(Math.round(durationTime * percent))
-    })
-    this.drag.on('click', percent => {
-      _this.setisCurrentTime(true)
-      _this.setCurrentTime(Math.round(durationTime * percent))
-    })
-  },
+  mounted() {},
   methods: {
-    ...mapMutations(['setCurrentTime', 'setisCurrentTime'])
+    ...mapMutations(['setCurrentTime', 'setisCurrentTime']),
+    click(percent) {
+      let time = Math.round(this.$music.durationTime * percent)
+      this.setisCurrentTime(true)
+      this.setCurrentTime(time)
+      this.$music.setCurrentTime(time)
+    },
+    move(percent) {
+      let time = Math.round(this.$music.durationTime * percent)
+      this.setisCurrentTime(false)
+      this.setCurrentTime(time)
+    },
+    end(percent) {
+      let time = Math.round(this.$music.durationTime * percent)
+      this.setisCurrentTime(true)
+      this.setCurrentTime(time)
+      this.$music.setCurrentTime(time)
+    }
   },
   beforeDestroy() {
     this.drag = null

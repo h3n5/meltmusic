@@ -29,6 +29,11 @@ class Base {
     this.context = this.element.getContext('2d')
   }
   setImgElement(albumWidth, albumHeight) {
+    let tmp = document.getElementById('imgElement')
+    if (tmp) {
+      // reset
+      tmp.parentElement.removeChild(tmp)
+    }
     this.imgElement = this.element.cloneNode()
     this.imgElement.setAttribute('id', 'imgElement')
     this.imgElement.style.width = albumWidth + 'px'

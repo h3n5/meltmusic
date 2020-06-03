@@ -72,7 +72,9 @@ export default {
     right: 0;
     top: 0;
     bottom: 0;
+    background: #000;
     background: var(--playbar-bgcolor);
+    transform: scale(1.5);
     background-size: cover;
     background-repeat: no-repeat;
     filter: blur(10px);
@@ -117,10 +119,11 @@ export default {
   }
   .player-wrap {
     height: 100%;
+    background: rgba(0, 0, 0, 0.2);
   }
 }
 .hide {
-  transform: translateY(105%);
+  transform: translateY(150%);
 }
 .show {
   transform: none;
