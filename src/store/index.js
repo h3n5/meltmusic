@@ -28,12 +28,14 @@ const Store = new Vuex.Store({
   },
   getters: {
     getMusic: state => {
-      let music = state.music
-      if (!music) return null
-      return Object.assign(music, {
-        album: music.album || music.al,
-        artists: music.artists || music.ar
-      })
+      let music = state.music || { album: {}, artists: [] }
+      return Object.assign(
+        {
+          album: music.album || music.al,
+          artists: music.artists || music.ar
+        },
+        music
+      )
     }
   },
   mutations: {
@@ -223,7 +225,7 @@ const Store = new Vuex.Store({
   if (state.volume) {
     Auplayer.setVolume(state.volume)
   }
-  if (state.music.albumPic) {
+  if (state.music && state.music.albumPic) {
     commit('setLayoutBg', `url(${state.music.albumPic}) no-repeat`)
   }
   Auplayer.setloop(state.mode === 3)

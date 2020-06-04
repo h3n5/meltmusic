@@ -1,6 +1,7 @@
 const target = 'http://localhost:3000/'
 const path = require('path')
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production' ? '/music/' : '/',
   devServer: {
     port: 4000,
     proxy: {
