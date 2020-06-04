@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'ant-design-vue'
 const HttpRequest = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? '/' : '/api/',
+  baseURL: process.env.NODE_ENV === 'production' ? '/musicApi' : '/api/',
   timeout: 120000
 })
 HttpRequest.interceptors.request.use(
