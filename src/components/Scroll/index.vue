@@ -296,7 +296,7 @@ export default {
   width: 100%;
   overflow: hidden;
   .scroll-content {
-    min-height: calc(~'100% + 1px');
+    height: calc(~'100% + 1px');
   }
   .no-more {
     text-align: center;

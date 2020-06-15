@@ -8,11 +8,11 @@ class Line extends Base {
       meterNum: 128,
       meterWidth: 2.5 * this.ratio,
       minHeight: 20 * this.ratio,
-      play: false,
+      play: false
     }
     this.audio = audio
     this.init()
-    this.loadImg(album).then((image) => {
+    this.loadImg(album).then(image => {
       this.drawAlubm(image)
       this.drawLine()
     })

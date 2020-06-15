@@ -5,7 +5,7 @@
       <a-icon type="right" @click.native="$router.go(1)" />
     </div>
     <Dropdown>
-      <Avatar :size="40" :src="avatarUrl" icon="user" />
+      <Avatar class="user-avatar" :size="40" :src="avatarUrl" icon="user" />
       <a-menu slot="overlay">
         <a-menu-item @click="goLogin(1)" v-if="!user">
           <span>登录</span>
@@ -108,7 +108,14 @@ export default {
   > i {
     height: 100%;
     padding: 10px;
+    color: #fff;
     .flex-center;
+  }
+}
+.user-avatar {
+  padding: 5px;
+  > img {
+    border-radius: 50%;
   }
 }
 </style>

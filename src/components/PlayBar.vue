@@ -102,7 +102,7 @@ export default {
   position: fixed;
   bottom: 0;
   left: 0;
-  background: #f0f0f0;
+  background: #bec8d1;
   .play-left {
     .song-pic {
       .img-wrap(68px);

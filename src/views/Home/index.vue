@@ -62,7 +62,7 @@ export default {
   height: 100%;
   .ant-layout {
     overflow: hidden;
-    background: var(--main-bgcolor);
+    // background: var(--main-bgcolor);
   }
   .layout-side {
     .ant-layout-sider-children {
@@ -70,6 +70,9 @@ export default {
       flex-flow: column nowrap;
       .menu {
         flex: 1;
+        border: none;
+        background: #373b3e;
+        color: #fff;
         .ant-menu-item {
           text-align: left;
         }
@@ -81,6 +84,7 @@ export default {
     flex-flow: row nowrap;
     padding: 0 40px;
     justify-content: space-between;
+    background: #86cecb;
   }
   .layout-ctx {
     overflow-y: auto;

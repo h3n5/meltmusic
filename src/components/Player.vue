@@ -7,8 +7,8 @@
       </div>
       <div class="player-wrap flex-column player-tg">
         <div class="play-content transiton-slide flex-row" :style="{ flex: showSongList ? 0 : 1 }">
-          <PlayAnime />
-          <PlayLyric />
+          <PlayAnime style="flex:1" />
+          <PlayLyric style="flex:2" />
         </div>
         <PlayBar class="player-PlayBar transiton-slide" :mini="false" @triggerSongList="setshowSongList" />
         <div class="play-content transiton-slide" :style="{ flex: showSongList ? 1 : 0 }">
@@ -105,9 +105,6 @@ export default {
     flex: 1;
     overflow: hidden;
     overflow-y: auto;
-    > div {
-      flex: 1;
-    }
     .ant-table {
       color: #fff;
       .ant-table-row:hover {
