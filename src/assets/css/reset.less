@@ -8,22 +8,28 @@ html {
   --main-bgcolor: #e5ecf5;
   --border: #f2f2f1;
   --grey: #e6e5e6;
-  --font-color-grey: #404040;
+  --font-color-grey: #707073;
   --font-color-blue: #517eaf;
+  --font-color-white: #fdfeff;
   --scroll-color: #e5ecf5;
   --scrollbar-color: #d0d0d0;
   --playbar-bgcolor: #517eaf;
   --player-bgcolor: #222;
+  --font-lignt: #fdfeff;
+  --theme-color: #ecf0f2;
+  --card-color: #f6f9fb;
 }
-html,
-body,
-#app {
-  height: 100vh;
+.font-color {
+  color: var(--font-color-grey) !important;
+}
+.card-color {
+  background: var(--card-color) !important;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  color: #2c3e50;
+  color: var(--font-color-grey);
   background-color: #e5ecf5;
+  min-height: 100vh;
 }
 .flex-column {
   display: flex;
@@ -61,4 +67,16 @@ body,
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-color);
+}
+.one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ellipsis(@line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
 }

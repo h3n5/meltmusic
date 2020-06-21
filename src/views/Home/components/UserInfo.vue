@@ -1,20 +1,28 @@
 <template>
-  <div class="user-dropdown">
-    <div class="routes-history">
-      <a-icon type="left" @click.native="$router.go(-1)" />
-      <a-icon type="right" @click.native="$router.go(1)" />
+  <div class="top-menu flex-row">
+    <div class="top-search flex-row">
+      <input type="text" class="top-search-input" />
+      <a-button type="danger">Search</a-button>
     </div>
-    <Dropdown>
-      <Avatar class="user-avatar" :size="40" :src="avatarUrl" icon="user" />
-      <a-menu slot="overlay">
-        <a-menu-item @click="goLogin(1)" v-if="!user">
-          <span>登录</span>
-        </a-menu-item>
-        <a-menu-item @click="goLogin(0)" v-if="user">
-          <span>注销</span>
-        </a-menu-item>
-      </a-menu>
-    </Dropdown>
+    <div class="top-avatar flex-center">
+      <div class="flex-row">
+        <div class="flex-column">
+          <span style="font-weight:bold;">{{ user.nickname }}</span>
+          <span>{{ user.signature }}</span>
+        </div>
+        <Dropdown>
+          <Avatar class="user-avatar" :size="40" :src="avatarUrl" icon="user" />
+          <a-menu slot="overlay">
+            <a-menu-item @click="goLogin(1)" v-if="!user">
+              <span>登录</span>
+            </a-menu-item>
+            <a-menu-item @click="goLogin(0)" v-if="user">
+              <span>注销</span>
+            </a-menu-item>
+          </a-menu>
+        </Dropdown>
+      </div>
+    </div>
     <a-modal :title="title" v-model="visible" :confirmLoading="confirmLoading" @ok="handleOk" @cancel="visible = false">
       <a-form-model>
         <a-form-model-item>
@@ -103,19 +111,44 @@ export default {
 }
 </script>
 <style lang="less" scope>
-.routes-history {
-  .flex-center;
-  > i {
-    height: 100%;
+.top-menu {
+  .top-search {
+    flex: 3;
+    margin-right: 10px;
     padding: 10px;
-    color: #fff;
-    .flex-center;
+    background: var(--card-color) !important;
+    color: var(--font-color-grey) !important;
+    border-radius: 7px;
+    &-input {
+      display: inline-block;
+      list-style: none;
+      position: relative;
+      width: 100%;
+      height: 32px;
+      padding: 4px 11px;
+      font-size: 14px;
+      line-height: 1.5;
+      background-color: var(--theme-color);
+      background-image: none;
+      border: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+      appearance: none;
+      outline: none;
+    }
   }
-}
-.user-avatar {
-  padding: 5px;
-  > img {
-    border-radius: 50%;
+  .top-avatar {
+    flex: 2;
+    background: var(--card-color) !important;
+    color: var(--font-color-grey) !important;
+    border-radius: 7px;
+  }
+  .user-avatar {
+    padding: 5px;
+    margin-left: 10px;
+    > img {
+      border-radius: 50%;
+    }
   }
 }
 </style>

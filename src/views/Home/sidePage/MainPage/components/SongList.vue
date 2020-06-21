@@ -1,6 +1,6 @@
 <template>
   <div class="playlist-cards flex-column ">
-    <h3>我创建的歌单</h3>
+    <h3 class="font-color">我创建的歌单</h3>
     <div class="flex-row flex-wrap">
       <PlayListItem
         class="PlayListItem"
@@ -12,7 +12,7 @@
         :name="item.name"
       />
     </div>
-    <h3>我收藏的歌单</h3>
+    <h3 class="font-color">我收藏的歌单</h3>
     <div class="flex-row flex-wrap">
       <PlayListItem
         class="PlayListItem"

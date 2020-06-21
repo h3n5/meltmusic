@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Layout, Icon, Menu, Tabs, Message, Empty, Button } from 'ant-design-vue'
+import { Layout, Icon, Menu, Tabs, Message, Empty, Button, Card } from 'ant-design-vue'
 import VueLazyload from 'vue-lazyload'
 import utils from '@/utils/index'
 Vue.use(VueLazyload, {
@@ -18,6 +18,7 @@ Vue.use(Icon)
 Vue.use(Menu)
 Vue.use(Tabs)
 Vue.use(Empty)
+Vue.use(Card)
 Vue.prototype.$message = Message
 Vue.config.productionTip = false
 Vue.prototype.$music = utils.Auplayer

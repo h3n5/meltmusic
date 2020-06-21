@@ -1,41 +1,31 @@
 <template>
-  <a-layout class="layout">
-    <a-layout-sider
-      :value="$route.name"
-      class="layout-side"
-      collapsible
-      v-model="collapsed"
-      :collapsedWidth="0"
-      width="120"
-    >
-      <a-menu class="menu" mode="inline" :inlineIndent="16">
-        <a-menu-item v-for="item in menuList" :key="item.component" @click="showMenu">
-          <a-icon :type="item.icon" />
-          <span>{{ item.text }}</span>
-        </a-menu-item>
-      </a-menu>
-    </a-layout-sider>
-    <a-layout>
-      <UserInfo class="user-info" />
-      <a-layout-content class="layout-ctx">
+  <div class="layout">
+    <div class="layout-top flex-row">
+      <LeftMenu class="layout-left" />
+      <div class="layout-right flex-column">
+        <UserInfo class="user-info" />
         <router-view></router-view>
-        <PlayBar />
-      </a-layout-content>
-    </a-layout>
-  </a-layout>
+      </div>
+    </div>
+    <div class="layout-bottom">
+      <PlayBar />
+    </div>
+  </div>
 </template>
 <script>
 import UserInfo from './components/UserInfo'
 import PlayBar from '@/components/PlayBar'
+import LeftMenu from './components/LeftMenu'
 export default {
   name: 'Home',
   components: {
     UserInfo,
-    PlayBar
+    PlayBar,
+    LeftMenu
   },
   data() {
     return {
-      collapsed: true,
+      collapsed: false,
       menuList: [
         {
           text: '搜索',
@@ -44,7 +34,7 @@ export default {
         },
         {
           text: '我的音乐',
-          icon: 'search',
+          icon: 'user',
           component: 'MainPage'
         }
       ]
@@ -60,9 +50,19 @@ export default {
 <style lang="less">
 .layout {
   height: 100%;
-  .ant-layout {
-    overflow: hidden;
-    // background: var(--main-bgcolor);
+  padding-bottom: 100px;
+  position: relative;
+  .layout-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  .layout-left {
+    margin: 0 35px 0 40px;
+    width: 330px;
+  }
+  .layout-right {
+    flex: 1;
   }
   .layout-side {
     .ant-layout-sider-children {
@@ -82,9 +82,7 @@ export default {
   .user-info {
     display: flex;
     flex-flow: row nowrap;
-    padding: 0 40px;
-    justify-content: space-between;
-    background: #86cecb;
+    margin: 20px 0;
   }
   .layout-ctx {
     overflow-y: auto;
@@ -94,6 +92,8 @@ export default {
     padding-bottom: 100px;
     box-sizing: border-box;
     position: relative;
+    background: var(--theme-color);
+    color: var(--font-color-white);
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="flex-colomn MainPage">
-    <h2>我的音乐</h2>
+    <h2 class="font-color">我的音乐</h2>
     <a-tabs v-model="defaultActiveKey">
       <a-tab-pane :tab="item.text" v-for="item in tabList" :key="item.key"></a-tab-pane>
     </a-tabs>
@@ -40,6 +40,7 @@ export default {
   .MainPage-component {
     flex: 1;
     overflow-y: auto;
+    padding-bottom: 100px;
   }
 }
 </style>
