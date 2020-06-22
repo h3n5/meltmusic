@@ -21,12 +21,16 @@ export default {
     list: {
       type: Array,
       default: () => []
+    },
+    showList: {
+      type: Boolean,
+      default: true
     }
   },
   components: {},
   data() {
     return {
-      show: true
+      show: this.showList
     }
   },
 
@@ -39,6 +43,8 @@ export default {
   color: var(--font-color-grey);
   padding: 24px;
   background: var(--card-color);
+  padding-bottom: 0;
+  border-radius: 6px;
   .cell-box {
     transition: all 0.5s;
     overflow: auto;
@@ -55,8 +61,8 @@ export default {
     font-weight: bold;
     padding-bottom: 15px;
   }
-  &:first-child {
-    border-radius: 7px 7px 0 0;
-  }
+  // &:first-child {
+  //   border-radius: 7px 7px 0 0;
+  // }
 }
 </style>

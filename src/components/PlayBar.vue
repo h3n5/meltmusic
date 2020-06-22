@@ -97,35 +97,8 @@ export default {
     .img-wrap(100px);
   }
 }
-
-.mini {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  background: #bec8d1;
-  .play-left {
-    .song-pic {
-      .img-wrap(68px);
-    }
-  }
-  .play-progress {
-    .progress {
-      background: #2c3e50;
-      &::after {
-        background: #f0f0f0;
-      }
-      .indicater {
-        background: #2c3e50;
-        &::after {
-          background: #f0f0f0;
-        }
-      }
-    }
-  }
-}
 .playBar {
-  width: 100%;
-
+  // width: 100%;
   background-size: cover;
   p {
     margin: 0;
@@ -138,6 +111,7 @@ export default {
     .song-al {
       width: 100%;
       font-size: 20px;
+      font-weight: bold;
       align-items: flex-start;
     }
     .song-name {
@@ -160,6 +134,58 @@ export default {
       &:hover {
         background-color: #2c3e50;
         color: #fff;
+      }
+    }
+  }
+}
+.mini {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f6f9fb;
+  margin: 0 55px;
+  padding: 0 50px;
+  &::before {
+    content: '';
+    position: absolute;
+    height: 110px;
+    width: 110px;
+    left: -55px;
+    background: #f6f9fb;
+    border-radius: 50%;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    height: 110px;
+    width: 110px;
+    right: -55px;
+    background: #f6f9fb;
+    border-radius: 50%;
+  }
+  .play-left {
+    .song-pic {
+      position: absolute;
+      left: -45px;
+      top: 10px;
+      .img-wrap(90px);
+      > img {
+        border-radius: 50%;
+      }
+    }
+  }
+  .play-progress {
+    .progress {
+      background: #2c3e50;
+      &::after {
+        background: #f0f0f0;
+      }
+      .indicater {
+        background: #2c3e50;
+        &::after {
+          background: #f0f0f0;
+        }
       }
     }
   }

@@ -3,7 +3,6 @@ const apiMusic = {
   // artists: '/artists', // 获取歌手单曲列表
   // artistAlbum: '/artist/album', // 获取歌手专辑列表
   // artistDesc: '/artist/desc', //  获取歌手信息
-  recommendResource: '/recommend/resource', // 获取每日推荐歌单（用户级）
   recommendSongs: '/recommend/songs', // 获取每日推荐歌曲（用户级）
   // personalFm: '/personal_fm', // 私人FM(用户级)
   // dailySignin: '/daily_signin', // 签到(用户级)

@@ -36,6 +36,9 @@ const Store = new Vuex.Store({
         },
         music
       )
+    },
+    getUser: state => {
+      return state.user ? state.user : { nickname: '未登录', signature: '需要登陆' }
     }
   },
   mutations: {

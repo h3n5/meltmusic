@@ -230,3 +230,5 @@ export const getMvComment = params => axios.get('/comment/mv', { params })
 export const getListDetail = params => axios.get('/playlist/detail', { params })
 // 获取音乐详情
 export const getSongDetail = ids => axios.get(`/song/detail?ids=${ids}`)
+
+export const getRecommentList = () => axios.get('/recommend/resource')

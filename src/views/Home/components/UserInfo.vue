@@ -4,16 +4,19 @@
       <input type="text" class="top-search-input" />
       <a-button type="danger">Search</a-button>
     </div>
+    <div class="top-user-name flex-center">
+      BLOCK
+    </div>
     <div class="top-avatar flex-center">
       <div class="flex-row">
         <div class="flex-column">
-          <span style="font-weight:bold;">{{ user.nickname }}</span>
-          <span>{{ user.signature }}</span>
+          <span style="font-weight:bold;">{{ getUser.nickname }}</span>
+          <span>{{ getUser.signature }}</span>
         </div>
         <Dropdown>
           <Avatar class="user-avatar" :size="40" :src="avatarUrl" icon="user" />
           <a-menu slot="overlay">
-            <a-menu-item @click="goLogin(1)" v-if="!user">
+            <a-menu-item @click="goLogin(1)">
               <span>登录</span>
             </a-menu-item>
             <a-menu-item @click="goLogin(0)" v-if="user">
@@ -41,7 +44,7 @@
 </template>
 <script>
 import { Avatar, Dropdown, Modal, Input, FormModel } from 'ant-design-vue'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { loginEmail, loginCellphone, logout } from '@/api'
 export default {
   name: 'UserInfo',
@@ -65,6 +68,7 @@ export default {
   },
   computed: {
     ...mapState(['user']),
+    ...mapGetters(['getUser']),
     title() {
       return this.user ? '注销' : '登录'
     },
@@ -137,8 +141,15 @@ export default {
       outline: none;
     }
   }
+  .top-user-name {
+    flex: 1;
+    background: var(--card-color) !important;
+    color: var(--font-color-grey) !important;
+    border-radius: 7px;
+    margin-right: 10px;
+  }
   .top-avatar {
-    flex: 2;
+    width: 220px;
     background: var(--card-color) !important;
     color: var(--font-color-grey) !important;
     border-radius: 7px;

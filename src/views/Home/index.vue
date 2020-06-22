@@ -1,26 +1,24 @@
 <template>
-  <div class="layout">
-    <div class="layout-top flex-row">
-      <LeftMenu class="layout-left" />
-      <div class="layout-right flex-column">
-        <UserInfo class="user-info" />
-        <router-view></router-view>
-      </div>
+  <div class="layout flex-row">
+    <LeftMenu class="layout-left" />
+    <div class="layout-right flex-column">
+      <UserInfo class="user-info" />
+      <router-view></router-view>
     </div>
-    <div class="layout-bottom">
+    <!-- <div class="layout-bottom">
       <PlayBar />
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 import UserInfo from './components/UserInfo'
-import PlayBar from '@/components/PlayBar'
+// import PlayBar from '@/components/PlayBar'
 import LeftMenu from './components/LeftMenu'
 export default {
   name: 'Home',
   components: {
     UserInfo,
-    PlayBar,
+    // PlayBar,
     LeftMenu
   },
   data() {
@@ -50,19 +48,24 @@ export default {
 <style lang="less">
 .layout {
   height: 100%;
-  padding-bottom: 100px;
   position: relative;
+  padding: 20px;
+  padding-left: 35px;
+  padding-top: 0;
   .layout-bottom {
     position: absolute;
     bottom: 0;
     width: 100%;
   }
   .layout-left {
-    margin: 0 35px 0 40px;
+    margin-right: 35px;
     width: 330px;
+    height: 100%;
+    overflow: auto;
   }
   .layout-right {
     flex: 1;
+    overflow: hidden;
   }
   .layout-side {
     .ant-layout-sider-children {
@@ -83,6 +86,7 @@ export default {
     display: flex;
     flex-flow: row nowrap;
     margin: 20px 0;
+    margin-right: 20px;
   }
   .layout-ctx {
     overflow-y: auto;

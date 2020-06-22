@@ -21,7 +21,7 @@
         </CardList>
       </div>
       <div class="menu-card">
-        <CardList title="我收藏的歌单">
+        <CardList :showList="false" title="我收藏的歌单">
           <Cell
             v-for="(item, index) in collect"
             :key="index"
@@ -99,6 +99,11 @@ export default {
     }
   }
   .menu-bar {
+    border-radius: 7px;
+    overflow: hidden;
+    .menu-card {
+      border-radius: 0;
+    }
   }
 }
 </style>
